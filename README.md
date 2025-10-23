@@ -1,9 +1,11 @@
-# DPO: Differential Policy Optimization
+# Differential Reinforcement Learning
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 ## Introduction
-- **Differential Policy Optimization (DPO)** introduces a differential formulation of reinforcement learning designed to improve trajectory consistency and sample efficiency in continuous control problems. Unlike conventional RL methods that rely on value-based formulations (Bellman equations, Q/V-functions), our method is based on a **dual, differential perspective** rooted in continuous-time control theory. Standard RL can be viewed as a discrete approximation of a control-theoretic integral formulation, which in turn admits a differential dual. We focus on building a **policy optimization method grounded in this differential dual**, enhanced by a **Hamiltonian prior**.
+- **Differential Reinforcement Learning (Differential RL)** is a framework that recasts RL from the lens of continuous-time optimal control. Instead of optimizing cumulative returns via value/Q functions, we derive a **differential dual** using Pontryagin’s maximum principle and work in a **Hamiltonian phase space** over state–adjoint variables. This induces a policy as a **trajectory operator** $G = \mathrm{Id} + \Delta_t\, S \nabla g$ that advances the system along dynamics aligned with a reduced Hamiltonian. The result is a learning process that embeds **physics-informed priors** and promotes **trajectory consistency** without hand-crafted constraints.
+
+- Within this framework, we instantiate a stage-wise algorithm called **Differential Policy Optimization (dfPO)** that learns the local movement operator pointwise along the trajectory. The method emphasizes **local, operator-level updates** rather than global value estimation. Theoretically, the framework yields **pointwise convergence guarantees** and a **regret bound of $O(K^{5/6})$**. Empirically, across representative scientific-computing tasks (surface modeling, multiscale grid control, molecular dynamics), Differential RL with dfPO achieves strong performance in low-data and physics-constrained scientific settings.
 ---
 
 ### Key Features
@@ -31,19 +33,19 @@ For experiments and benchmarkings, we designed tasks to reflect critical challen
 ### 1. Clone the repo and install dependencies
 
 ```bash
-git clone https://github.com/mpnguyen2/dpo.git
-cd dpo
+git clone https://github.com/mpnguyen2/dfPO.git
+cd dfPO
 pip install -r requirements.txt
 ```
 
 ### 2. Install trained models for benchmarking
 Due to size constraints, two folders ```models``` and ```benchmarks/models``` are not in the repo. Download them here:
 
-📥 First download and upzip the file in (https://www.swisstransfer.com/d/fb4868ed-a971-43b8-be05-d5eb0c67d80f). Password to download is: **dpo_assets**. Inside the unzipped folder are two folders ```models``` and ```benchmarks/models```.
+📥 First download two folders ```models``` and ```benchmarks/models``` from the Dropbox link: https://www.dropbox.com/scl/fo/n4tuy2jztqbenrh59n21l/AGOdr_YHHEo3pgBF6G39P38?rlkey=g65hut0hi53sodmwozpoidb7k&st=9y7fdnf8&dl=0.
 
-Put those files into corresponding directories from the root directory:
+Put the model files inside those two folders into corresponding directories from the root directory:
 ```
-dpo/
+dfpo/
 ├── models/
 ├── benchmarks/
 │   └── models/
@@ -100,7 +102,7 @@ python benchmarks_run.py --multiple_seeds=1
 
 ## File structure
 ```
-dpo/
+dfPO/
 ├── output/                  # Benchmark plots and evaluation costs
 ├── models/                 <- Download this folder from the given link above
 ├── benchmark/               # Benchmark code

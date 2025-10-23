@@ -83,7 +83,7 @@ def run_benchmark(datasets, algorithms, seeds, env_to_gamma,
             avg_final_vals = np.mean(final_vals, axis=1)
             avg = np.mean(avg_final_vals)
             std = np.std(avg_final_vals)
-            algo_name = 'DPO' if algo == 'DPO_zero_order' else algo
+            algo_name = 'dfPO' if algo == 'DPO_zero_order' else algo
             if output_std:
                 print(f'{algo_name} on {env_name} => {avg:.3f} ± {std:.3f}')
             else:
